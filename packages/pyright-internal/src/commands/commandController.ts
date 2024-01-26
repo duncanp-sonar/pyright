@@ -12,6 +12,7 @@ import { LanguageServerInterface } from '../languageServerBase';
 import { Commands } from './commands';
 import { CreateTypeStubCommand } from './createTypeStub';
 import { DumpFileDebugInfoCommand } from './dumpFileDebugInfoCommand';
+import { GetLogicalContextCommand } from './getLogicalContextCommand';
 import { QuickActionCommand } from './quickActionCommand';
 import { RestartServerCommand } from './restartServer';
 
@@ -24,16 +25,22 @@ export class CommandController implements ServerCommand {
     private _restartServer: RestartServerCommand;
     private _quickAction: QuickActionCommand;
     private _dumpFileDebugInfo: DumpFileDebugInfoCommand;
+    private _getLogicalContext: GetLogicalContextCommand;
 
     constructor(ls: LanguageServerInterface) {
         this._createStub = new CreateTypeStubCommand(ls);
         this._restartServer = new RestartServerCommand(ls);
         this._quickAction = new QuickActionCommand(ls);
         this._dumpFileDebugInfo = new DumpFileDebugInfoCommand(ls);
+        this._getLogicalContext = new GetLogicalContextCommand(ls);
     }
 
     async execute(cmdParams: ExecuteCommandParams, token: CancellationToken): Promise<any> {
         switch (cmdParams.command) {
+            case Commands.getLogicalContext: {
+                return this._getLogicalContext.execute(cmdParams, token);
+            }
+
             case Commands.orderImports: {
                 return this._quickAction.execute(cmdParams, token);
             }

@@ -1,12 +1,12 @@
 {
-    "name": "vscode-pyright",
+    "name": "lseg-pyright",
     "displayName": "Pyright",
     "description": "VS Code static type checking for Python",
-    "version": "1.1.348",
+    "version": "1.1.999",
     "private": true,
     "license": "MIT",
     "author": {
-        "name": "Microsoft Corporation"
+        "name": "LSEG/Microsoft Corporation"
     },
     "publisher": "ms-pyright",
     "repository": {
@@ -81,6 +81,12 @@
                 "title": "Dump code flow graph for node ...",
                 "category": "Pyright",
                 "enablement": "editorLangId == python && pyright.development"
+            },
+            {
+                "command": "pyright.getLogicalContext",
+                "title": "Returns the logical context for the specified position",
+                "category": "Pyright",
+                "enablement": "editorLangId == python"
             }
         ],
         "menus": {
@@ -1554,7 +1560,7 @@
         "clean": "shx rm -rf ./dist ./out",
         "prepackage": "node ./build/renamePackage.js pyright",
         "package": "vsce package",
-        "postpackage": "node ./build/renamePackage.js vscode-pyright",
+        "postpackage": "node ./build/renamePackage.js lseg-pyright",
         "vscode:prepublish": "node ./build/checkPackage.js && npm run clean && webpack --mode production --progress",
         "webpack": "webpack --mode development --progress",
         "webpack-dev": "npm run clean && webpack --mode development --watch --progress"

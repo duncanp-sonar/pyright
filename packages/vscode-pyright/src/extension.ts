@@ -220,6 +220,21 @@ export async function activate(context: ExtensionContext) {
         );
     });
 
+    context.subscriptions.push(
+        commands.registerCommand(Commands.getLogicalContext, async () => {
+            const fileName = window.activeTextEditor?.document.fileName;
+            if (fileName) {
+                const start = window.activeTextEditor!.selection.start;
+                const startOffset = window.activeTextEditor!.document.offsetAt(start);
+                return await client.sendRequest('workspace/executeCommand', {
+                    command: Commands.getLogicalContext,
+                    arguments: [fileName, startOffset],
+                });
+            }
+            return Promise.resolve('[LSEG pyright - no active file]');
+        })
+    );
+
     // Register the debug only commands when running under the debugger.
     if (context.extensionMode === ExtensionMode.Development) {
         // Create a 'when' context for development.
